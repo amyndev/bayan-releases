@@ -152,3 +152,105 @@ CREATE TRIGGER places_updated_at
 BEFORE UPDATE ON places
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at();
+
+
+-- =========================
+-- ROW LEVEL SECURITY (RLS)
+-- =========================
+
+ALTER TABLE stories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE characters ENABLE ROW LEVEL SECURITY;
+ALTER TABLE places ENABLE ROW LEVEL SECURITY;
+ALTER TABLE story_characters ENABLE ROW LEVEL SECURITY;
+ALTER TABLE story_places ENABLE ROW LEVEL SECURITY;
+
+-- -------------------------
+-- STORIES
+-- -------------------------
+CREATE POLICY "Allow public select on stories"
+    ON stories FOR SELECT
+    USING (true);
+
+CREATE POLICY "Allow public insert on stories"
+    ON stories FOR INSERT
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public update on stories"
+    ON stories FOR UPDATE
+    USING (true)
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public delete on stories"
+    ON stories FOR DELETE
+    USING (true);
+
+-- -------------------------
+-- CHARACTERS
+-- -------------------------
+CREATE POLICY "Allow public select on characters"
+    ON characters FOR SELECT
+    USING (true);
+
+CREATE POLICY "Allow public insert on characters"
+    ON characters FOR INSERT
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public update on characters"
+    ON characters FOR UPDATE
+    USING (true)
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public delete on characters"
+    ON characters FOR DELETE
+    USING (true);
+
+-- -------------------------
+-- PLACES
+-- -------------------------
+CREATE POLICY "Allow public select on places"
+    ON places FOR SELECT
+    USING (true);
+
+CREATE POLICY "Allow public insert on places"
+    ON places FOR INSERT
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public update on places"
+    ON places FOR UPDATE
+    USING (true)
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public delete on places"
+    ON places FOR DELETE
+    USING (true);
+
+-- -------------------------
+-- STORY ↔ CHARACTER (Junction)
+-- -------------------------
+CREATE POLICY "Allow public select on story_characters"
+    ON story_characters FOR SELECT
+    USING (true);
+
+CREATE POLICY "Allow public insert on story_characters"
+    ON story_characters FOR INSERT
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public delete on story_characters"
+    ON story_characters FOR DELETE
+    USING (true);
+
+-- -------------------------
+-- STORY ↔ PLACE (Junction)
+-- -------------------------
+CREATE POLICY "Allow public select on story_places"
+    ON story_places FOR SELECT
+    USING (true);
+
+CREATE POLICY "Allow public insert on story_places"
+    ON story_places FOR INSERT
+    WITH CHECK (true);
+
+CREATE POLICY "Allow public delete on story_places"
+    ON story_places FOR DELETE
+    USING (true);
+
