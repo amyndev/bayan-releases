@@ -1,0 +1,50 @@
+erDiagram
+    STORIES {
+        UUID id PK
+        TEXT title
+        TEXT content
+        TEXT summary
+        ENUM[] tags
+        TEXT[] sources
+        TEXT image
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    CHARACTERS {
+        UUID id PK
+        TEXT name
+        ENUM[] tags
+        ENUM gender
+        TEXT bio
+        TEXT image
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    PLACES {
+        UUID id PK
+        TEXT name
+        ENUM[] tags
+        TEXT region
+        TEXT description
+        TEXT image
+        TIMESTAMPTZ created_at
+        TIMESTAMPTZ updated_at
+    }
+
+    STORY_CHARACTERS {
+        UUID story_id FK
+        UUID character_id FK
+    }
+
+    STORY_PLACES {
+        UUID story_id FK
+        UUID place_id FK
+    }
+
+    STORIES ||--o{ STORY_CHARACTERS : has
+    CHARACTERS ||--o{ STORY_CHARACTERS : appears_in
+
+    STORIES ||--o{ STORY_PLACES : has
+    PLACES ||--o{ STORY_PLACES : appears_in
