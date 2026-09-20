@@ -1,6 +1,6 @@
 export type CharacterGender = "male" | "female" | "group"
 
-export interface Character {
+export type Character = {
   id: string
   name: string
   tags: string[]
@@ -11,7 +11,7 @@ export interface Character {
   updated_at: string
 }
 
-export interface CharacterInsert {
+export type CharacterInsert = {
   id?: string
   name: string
   tags?: string[]
@@ -22,9 +22,18 @@ export interface CharacterInsert {
   updated_at?: string
 }
 
-export type CharacterUpdate = Partial<CharacterInsert>
+export type CharacterUpdate = {
+  id?: string
+  name?: string
+  tags?: string[]
+  gender?: CharacterGender
+  bio?: string | null
+  image?: string | null
+  created_at?: string
+  updated_at?: string
+}
 
-export interface CharactersTable {
+export type CharactersTable = {
   Row: Character
   Insert: CharacterInsert
   Update: CharacterUpdate

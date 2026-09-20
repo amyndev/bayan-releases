@@ -1,4 +1,4 @@
-export interface Story {
+export type Story = {
   id: string
   title: string
   content: string | null
@@ -10,7 +10,7 @@ export interface Story {
   updated_at: string
 }
 
-export interface StoryInsert {
+export type StoryInsert = {
   id?: string
   title: string
   content?: string | null
@@ -22,9 +22,19 @@ export interface StoryInsert {
   updated_at?: string
 }
 
-export type StoryUpdate = Partial<StoryInsert>
+export type StoryUpdate = {
+  id?: string
+  title?: string
+  content?: string | null
+  summary?: string | null
+  tags?: string[]
+  sources?: string[]
+  image?: string | null
+  created_at?: string
+  updated_at?: string
+}
 
-export interface StoriesTable {
+export type StoriesTable = {
   Row: Story
   Insert: StoryInsert
   Update: StoryUpdate

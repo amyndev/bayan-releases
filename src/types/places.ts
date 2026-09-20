@@ -1,4 +1,4 @@
-export interface Place {
+export type Place = {
   id: string
   name: string
   tags: string[]
@@ -9,7 +9,7 @@ export interface Place {
   updated_at: string
 }
 
-export interface PlaceInsert {
+export type PlaceInsert = {
   id?: string
   name: string
   tags?: string[]
@@ -20,9 +20,18 @@ export interface PlaceInsert {
   updated_at?: string
 }
 
-export type PlaceUpdate = Partial<PlaceInsert>
+export type PlaceUpdate = {
+  id?: string
+  name?: string
+  tags?: string[]
+  region?: string | null
+  description?: string | null
+  image?: string | null
+  created_at?: string
+  updated_at?: string
+}
 
-export interface PlacesTable {
+export type PlacesTable = {
   Row: Place
   Insert: PlaceInsert
   Update: PlaceUpdate

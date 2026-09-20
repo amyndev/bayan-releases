@@ -1,14 +1,14 @@
-export interface StoryCharacter {
+export type StoryCharacter = {
   story_id: string
   character_id: string
 }
 
-export interface StoryPlace {
+export type StoryPlace = {
   story_id: string
   place_id: string
 }
 
-export interface StoryCharactersTable {
+export type StoryCharactersTable = {
   Row: StoryCharacter
   Insert: StoryCharacter
   Update: Partial<StoryCharacter>
@@ -30,7 +30,7 @@ export interface StoryCharactersTable {
   ]
 }
 
-export interface StoryPlacesTable {
+export type StoryPlacesTable = {
   Row: StoryPlace
   Insert: StoryPlace
   Update: Partial<StoryPlace>
