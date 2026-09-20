@@ -32,7 +32,7 @@ export function StoryDetailDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold tracking-tight">
+          <DialogTitle dir="auto" className="text-xl font-bold tracking-tight leading-snug">
             {story.title}
           </DialogTitle>
           <DialogDescription className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -58,14 +58,20 @@ export function StoryDetailDialog({
 
           {/* Summary */}
           {story.summary && (
-            <div className="rounded-lg border bg-muted/30 p-3.5 text-sm italic text-muted-foreground">
+            <div
+              dir="auto"
+              className="rounded-lg border bg-muted/30 p-3.5 text-sm italic text-muted-foreground leading-relaxed font-sans"
+            >
               {story.summary}
             </div>
           )}
 
           {/* Full Content */}
           {story.content ? (
-            <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+            <div
+              dir="auto"
+              className="whitespace-pre-wrap text-base leading-loose text-foreground font-sans"
+            >
               {story.content}
             </div>
           ) : (
@@ -83,7 +89,7 @@ export function StoryDetailDialog({
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {story.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
+                  <Badge key={tag} variant="secondary" dir="auto">
                     {tag}
                   </Badge>
                 ))}
@@ -100,7 +106,7 @@ export function StoryDetailDialog({
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {story.sources.map((source) => (
-                  <Badge key={source} variant="outline" className="text-xs">
+                  <Badge key={source} variant="outline" dir="auto" className="text-xs">
                     {source}
                   </Badge>
                 ))}

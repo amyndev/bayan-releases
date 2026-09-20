@@ -254,3 +254,63 @@ CREATE POLICY "Allow public delete on story_places"
     ON story_places FOR DELETE
     USING (true);
 
+
+-- =========================
+-- STORAGE BUCKETS (Stories, Characters, Places)
+-- =========================
+
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES
+    ('stories', 'stories', true, 10485760, ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']),
+    ('characters', 'characters', true, 10485760, ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']),
+    ('places', 'places', true, 10485760, ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'])
+ON CONFLICT (id) DO UPDATE SET
+    public = true,
+    file_size_limit = 10485760,
+    allowed_mime_types = ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+    
+
+-- -------------------------
+-- STORIES BUCKET
+-- -------------------------
+CREATE POLICY "Allow upload to stories bucket"
+    ON storage.objects FOR INSERT
+    WITH CHECK (bucket_id = 'stories');
+
+CREATE POLICY "Allow update on stories bucket"
+    ON storage.objects FOR UPDATE
+    USING (bucket_id = 'stories');
+
+CREATE POLICY "Allow delete from stories bucket"
+    ON storage.objects FOR DELETE
+    USING (bucket_id = 'stories');
+
+-- -------------------------
+-- CHARACTERS BUCKET
+-- -------------------------
+CREATE POLICY "Allow upload to characters bucket"
+    ON storage.objects FOR INSERT
+    WITH CHECK (bucket_id = 'characters');
+
+CREATE POLICY "Allow update on characters bucket"
+    ON storage.objects FOR UPDATE
+    USING (bucket_id = 'characters');
+
+CREATE POLICY "Allow delete from characters bucket"
+    ON storage.objects FOR DELETE
+    USING (bucket_id = 'characters');
+
+-- -------------------------
+-- PLACES BUCKET
+-- -------------------------
+CREATE POLICY "Allow upload to places bucket"
+    ON storage.objects FOR INSERT
+    WITH CHECK (bucket_id = 'places');
+
+CREATE POLICY "Allow update on places bucket"
+    ON storage.objects FOR UPDATE
+    USING (bucket_id = 'places');
+
+CREATE POLICY "Allow delete from places bucket"
+    ON storage.objects FOR DELETE
+    USING (bucket_id = 'places');

@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import { ImageUploader } from "@/components/ui/image-uploader"
 import { Loader2, Plus, X } from "lucide-react"
 import type { Story, StoryInsert, StoryUpdate } from "@/types"
 
@@ -111,7 +112,8 @@ function StoryFormInner({ storyToEdit, onSubmit, onCancel }: StoryFormInnerProps
         <Label htmlFor="story-title">Title *</Label>
         <Input
           id="story-title"
-          placeholder="e.g. The Companions of the Cave (Ashab al-Kahf)"
+          dir="auto"
+          placeholder="العنوان..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -123,8 +125,10 @@ function StoryFormInner({ storyToEdit, onSubmit, onCancel }: StoryFormInnerProps
         <Label htmlFor="story-summary">Summary</Label>
         <Textarea
           id="story-summary"
-          rows={2}
-          placeholder="A brief overview or abstract of the story..."
+          dir="auto"
+          rows={3}
+          placeholder="الملخص..."
+          className="leading-relaxed"
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
         />
@@ -135,36 +139,22 @@ function StoryFormInner({ storyToEdit, onSubmit, onCancel }: StoryFormInnerProps
         <Label htmlFor="story-content">Content</Label>
         <Textarea
           id="story-content"
-          rows={5}
-          placeholder="Full narrative, context, or story text..."
+          dir="auto"
+          rows={6}
+          placeholder="نص القصة..."
+          className="leading-relaxed font-sans min-h-[140px]"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
       </div>
 
-      {/* Image URL */}
-      <div className="space-y-1.5">
-        <Label htmlFor="story-image">Image URL</Label>
-        <Input
-          id="story-image"
-          type="url"
-          placeholder="https://example.com/image.jpg"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-        {imageUrl.trim() && (
-          <div className="mt-2 overflow-hidden rounded-md border bg-muted/40">
-            <img
-              src={imageUrl}
-              alt="Story preview"
-              className="h-32 w-full object-cover"
-              onError={(e) => {
-                ;(e.target as HTMLElement).style.display = "none"
-              }}
-            />
-          </div>
-        )}
-      </div>
+      {/* Cover Image with WebP optimization & Supabase Storage */}
+      <ImageUploader
+        value={imageUrl}
+        onChange={setImageUrl}
+        bucket="stories"
+        label="Cover Image"
+      />
 
       {/* Tags */}
       <div className="space-y-1.5">
@@ -172,7 +162,8 @@ function StoryFormInner({ storyToEdit, onSubmit, onCancel }: StoryFormInnerProps
         <div className="flex gap-2">
           <Input
             id="story-tags"
-            placeholder="Add a tag (e.g. quran, lesson)"
+            dir="auto"
+            placeholder="أضف وسماً..."
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={(e) => {
@@ -190,7 +181,7 @@ function StoryFormInner({ storyToEdit, onSubmit, onCancel }: StoryFormInnerProps
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 pt-1.5">
             {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="gap-1 py-0.5">
+              <Badge key={tag} variant="secondary" dir="auto" className="gap-1 py-0.5">
                 {tag}
                 <button
                   type="button"
@@ -211,7 +202,8 @@ function StoryFormInner({ storyToEdit, onSubmit, onCancel }: StoryFormInnerProps
         <div className="flex gap-2">
           <Input
             id="story-sources"
-            placeholder="e.g. Surah Al-Kahf 18:9-26"
+            dir="auto"
+            placeholder="أضف مصدراً أو مرجعاً..."
             value={sourceInput}
             onChange={(e) => setSourceInput(e.target.value)}
             onKeyDown={(e) => {

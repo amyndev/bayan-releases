@@ -47,6 +47,7 @@ import {
 import { StoryCard } from "@/components/stories/story-card"
 import { StoryFormDialog } from "@/components/stories/story-form-dialog"
 import { StoryDetailDialog } from "@/components/stories/story-detail-dialog"
+import { normalizeArabic } from "@/lib/arabic"
 
 export default function StoriesPage() {
   const [stories, setStories] = React.useState<Story[]>([])
@@ -179,17 +180,25 @@ export default function StoriesPage() {
     }
   }
 
-  // Filtered stories based on search
+  // Filtered stories based on search with Arabic normalization
   const filteredStories = React.useMemo(() => {
-    const q = searchQuery.toLowerCase().trim()
-    if (!q) return stories
+    const rawQ = searchQuery.trim()
+    if (!rawQ) return stories
+
+    const normQ = normalizeArabic(rawQ)
 
     return stories.filter((story) => {
-      const matchTitle = story.title.toLowerCase().includes(q)
-      const matchSummary = story.summary?.toLowerCase().includes(q) || false
-      const matchTags = story.tags?.some((t) => t.toLowerCase().includes(q)) || false
-      const matchSources = story.sources?.some((s) => s.toLowerCase().includes(q)) || false
-      return matchTitle || matchSummary || matchTags || matchSources
+      const normTitle = normalizeArabic(story.title)
+      const normSummary = story.summary ? normalizeArabic(story.summary) : ""
+      const normTags = story.tags ? story.tags.map((t) => normalizeArabic(t)) : []
+      const normSources = story.sources ? story.sources.map((s) => normalizeArabic(s)) : []
+
+      return (
+        normTitle.includes(normQ) ||
+        normSummary.includes(normQ) ||
+        normTags.some((t) => t.includes(normQ)) ||
+        normSources.some((s) => s.includes(normQ))
+      )
     })
   }, [stories, searchQuery])
 
@@ -253,7 +262,8 @@ export default function StoriesPage() {
         <div className="relative flex-1 sm:max-w-xs">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search stories, tags..."
+            dir="auto"
+            placeholder="ابحث..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-8 text-sm"
@@ -380,31 +390,32 @@ export default function StoriesPage() {
                   <TableCell className="font-medium">
                     <button
                       onClick={() => setStoryToView(story)}
-                      className="text-left hover:underline"
+                      dir="auto"
+                      className="text-left hover:underline leading-snug"
                     >
                       {story.title}
                     </button>
                   </TableCell>
-                  <TableCell className="max-w-xs truncate text-muted-foreground text-sm">
+                  <TableCell dir="auto" className="max-w-xs truncate text-muted-foreground text-sm leading-relaxed">
                     {story.summary || "—"}
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
                       {story.tags && story.tags.length > 0
                         ? story.tags.slice(0, 2).map((t) => (
-                            <Badge key={t} variant="secondary" className="text-xs">
+                            <Badge key={t} variant="secondary" dir="auto" className="text-xs">
                               {t}
                             </Badge>
                           ))
                         : "—"}
                       {story.tags && story.tags.length > 2 && (
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" dir="auto" className="text-xs">
                           +{story.tags.length - 2}
                         </Badge>
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className="text-xs text-muted-foreground">
+                  <TableCell dir="auto" className="text-xs text-muted-foreground">
                     {story.sources?.length ? `${story.sources.length} ref(s)` : "—"}
                   </TableCell>
                   <TableCell className="text-right">

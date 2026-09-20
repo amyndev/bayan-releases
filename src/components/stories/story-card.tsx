@@ -58,7 +58,8 @@ export function StoryCard({
           <div className="flex items-start justify-between gap-2">
             <CardTitle
               onClick={() => onView(story)}
-              className="line-clamp-1 cursor-pointer text-lg font-semibold tracking-tight transition-colors hover:text-primary"
+              dir="auto"
+              className="line-clamp-1 cursor-pointer text-lg font-semibold tracking-tight transition-colors hover:text-primary leading-snug"
             >
               {story.title}
             </CardTitle>
@@ -96,7 +97,7 @@ export function StoryCard({
 
         <CardContent className="space-y-3 pb-3">
           {story.summary ? (
-            <p className="line-clamp-2 text-sm text-muted-foreground">
+            <p dir="auto" className="line-clamp-2 text-sm text-muted-foreground leading-relaxed">
               {story.summary}
             </p>
           ) : (
@@ -109,12 +110,12 @@ export function StoryCard({
           {story.tags && story.tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {story.tags.slice(0, 3).map((tag) => (
-                <Badge key={tag} variant="secondary" className="text-[11px] px-1.5 py-0">
+                <Badge key={tag} variant="secondary" dir="auto" className="text-[11px] px-1.5 py-0">
                   {tag}
                 </Badge>
               ))}
               {story.tags.length > 3 && (
-                <Badge variant="outline" className="text-[11px] px-1.5 py-0">
+                <Badge variant="outline" dir="auto" className="text-[11px] px-1.5 py-0">
                   +{story.tags.length - 3}
                 </Badge>
               )}
